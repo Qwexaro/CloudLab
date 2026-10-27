@@ -1,0 +1,65 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "title": "Запросы в секунду (RPS)",
+      "type": "timeseries",
+      "id": 1,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        { "expr": "rate(app_requests_total[1m])", "legendFormat": "{{method}} {{endpoint}}", "datasource": { "type": "prometheus", "uid": "Prometheus" } }
+      ]
+    },
+    {
+      "title": "95-й перцентиль задержки",
+      "type": "timeseries",
+      "id": 2,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, rate(app_request_latency_seconds_bucket[5m]))", "legendFormat": "p95 {{endpoint}}", "datasource": { "type": "prometheus", "uid": "Prometheus" } }
+      ]
+    },
+    {
+      "title": "Средняя задержка",
+      "type": "timeseries",
+      "id": 3,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        { "expr": "app_request_latency_seconds_sum / app_request_latency_seconds_count", "legendFormat": "Avg latency", "datasource": { "type": "prometheus", "uid": "Prometheus" } }
+      ]
+    },
+    {
+      "title": "Запросы к API по эндпоинту",
+      "type": "timeseries",
+      "id": 4,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        { "expr": "rate(app_requests_total{endpoint=\"/api/todos\"}[5m])", "legendFormat": "{{method}}", "datasource": { "type": "prometheus", "uid": "Prometheus" } }
+      ]
+    },
+    {
+      "title": "Статус health-проверки сервисов",
+      "type": "stat",
+      "id": 5,
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 16 },
+      targets: [
+        { "expr": "up", "legendFormat": "{{job}}", "datasource": { "type": "prometheus", "uid": "Prometheus" } }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "time": { "from": "now-15m", "to": "now" },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Микросервисы Todo API Monitoring",
+  "version": 1
+}

@@ -1,0 +1,14 @@
+[Bb]in/
+[Oo]bj/
+
+
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+
+
+/publish/
+*.nupkg
+
